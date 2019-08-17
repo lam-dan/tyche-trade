@@ -1,0 +1,63 @@
+// WHerever we call a sub color, we are going to substitute gray or black
+$sub-color: grey;
+$main-color: black;
+
+// Mixin shrinkLabel is an easy way to include this whole block of css
+// everywhere we see @include below. 
+@mixin shrinkLabel {
+  top: -14px;
+  font-size: 12px;
+  color: $main-color;
+}
+
+.group {
+  position: relative;
+  margin: 45px 0;
+
+  .form-input {
+    background: none;
+    background-color: white;
+    color: $sub-color;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $sub-color;
+    margin: 25px 0;
+
+    &:focus {
+      outline: none;
+    }
+
+    // Whenever a user focuses, or whenever a browser is focused on that input
+    // then we want to target the for input label and include shink label
+    &:focus ~ .form-input-label {
+      @include shrinkLabel();
+    }
+  }
+
+  input[type='password'] {
+    letter-spacing: 0.3em;
+  }
+
+  .form-input-label {
+    color: $sub-color;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    // we are adding a transition when user selects an input field
+    // so when properties get updated, there is a transition of 300ms
+    // to that change
+    transition: 300ms ease all;
+
+
+    &.shrink {
+      @include shrinkLabel();
+    }
+  }
+}

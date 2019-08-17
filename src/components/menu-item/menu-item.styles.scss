@@ -1,0 +1,79 @@
+.menu-item {
+  min-width: 30%;
+  height: 240px;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  margin: 0 7.5px 15px;
+  // We add overflow hidden to prevent this hover over transformation from exceeding the menu-item container
+  overflow: hidden;
+
+  &:hover {
+    // when we hover over over menu-item we'd like a cursor to become a pointer, instead an arrow
+    // it becomes the finger
+    cursor: pointer;
+
+    // Inside of that, any element with a background image, we would like to give a background image transform
+    // property scale of 1.1, so the image will increase by 1.1 size
+    // whenveer it transforms to scale, we want it to take 6 seconds. We also want this transformation to change
+    // based on this cubviz-bezier calculation
+    & .background-image {
+      transform: scale(1.1);
+      transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+    }
+
+    // Change our content opacity to 0.9
+    & .content {
+      opacity: 0.9;
+    }
+  }
+
+  &.large {
+    height: 380px;
+  }
+
+  &:first-child {
+    margin-right: 7.5px;
+  }
+
+  &:last-child {
+    margin-left: 7.5px;
+  }
+
+  .background-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .content {
+    height: 90px;
+    padding: 0 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    background-color: white;
+    opacity: 0.7;
+    // No matter what happens or what other elements on the page, the position of this content will always
+    // be whatever the position calculation will be. In other words, the other div className background-image,
+    // and it's styling do not affect this content div's styling
+    position: absolute;
+
+    .title {
+      font-weight: bold;
+      margin: 0 6px 0;
+      font-size: 22px;
+      color: #4a4a4a;
+    }
+
+    .subtitle {
+      font-weight: lighter;
+      font-size: 16px;
+    }
+  }
+}
