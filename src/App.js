@@ -32,19 +32,12 @@ class App extends React.Component {
           console.log(snapShot);
           // We are going to set state on that snapshot data
           // setState is asynchronous so console log has to be in the callback
-          this.setState(
-            {
-              currentUser: {
-                id: snapShot.id,
-                ...snapShot.data()
-              }
-            },
-            () => {
-              console.log(this.state);
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
             }
-          );
-
-          console.log(this.state);
+          });
         });
       } else {
         // If user ever logs out, we set the current state of the user to null, user autheticantion will be null
