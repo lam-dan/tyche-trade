@@ -43,6 +43,8 @@ class App extends React.Component {
               console.log(this.state);
             }
           );
+
+          console.log(this.state);
         });
       } else {
         // If user ever logs out, we set the current state of the user to null, user autheticantion will be null
