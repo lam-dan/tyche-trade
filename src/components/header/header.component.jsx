@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { auth } from '../../firebase/firebase.utils';
@@ -32,4 +33,19 @@ const Header = ({ currentUser }) => (
   </div>
 );
 
-export default Header;
+// We will write this pattern extensively if we need anything from our
+// reducers in our future components.
+// Name of the property is the property we want to pass into our headers.
+// State is the root reducer, user is the field on the root-reducer
+// The user is then the user.reducer that contains the currentUser initial
+// state as 'null'
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+
+})
+
+// Connect is a higher order component that takes in another component and return 
+// a powered up component.
+// Passing mapStateToProps we are getting that current user null value as
+// being passed into the Header Component above as 'null' value
+export default connect(mapStateToProps)(Header);

@@ -8,6 +8,8 @@ import './index.css';
 import App from './App';
 
 ReactDOM.render(
+  // Parent component around entire application so that a;; components have access to the store object in Redux
+  // 
   <Provider store={store}>
     <BrowserRouter>
       <App />
