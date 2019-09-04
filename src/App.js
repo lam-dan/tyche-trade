@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './App.css';
@@ -12,7 +12,6 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends React.Component {
-
   // We do not need this anymore since we are using Redux to manage state
   // constructor() {
   //   super();
@@ -23,9 +22,8 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-
     // Destructure object field off props.
-    const {setCurrentUser} = this.props;
+    const { setCurrentUser } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       //Check to see if there is a user authorization when they log in
@@ -70,12 +68,29 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/signin' component={SignInAndSignUpPage} />
+          <Route
+            exact
+            path='/signin'
+            render={() =>
+              this.props.currentUser ? (
+                <Redirect to='/' />
+              ) : (
+                <SignInAndSignUpPage />
+              )
+            }
+          />
         </Switch>
       </div>
     );
   }
 }
+
+// We are taking state from the root-reducer nad passing in the user key
+// which contains the userReducer, and in the userReducer we have the currentUser
+// as the INITIAL_STATE being null
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+});
 
 const mapDispatchToProps = dispatch => ({
   // dispatch allows redux to know that the object passed through is going
@@ -83,4 +98,12 @@ const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null, mapDispatchToProps)(App);
+// Connect is a higher order component that takes in another component and return
+// a powered up component.
+// Passing mapStateToProps we are getting that current user null value as
+// being passed App component.
+export default connect(
+  // we pass mapStateToProps to connect so that App.js has access to this.props.current.user
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

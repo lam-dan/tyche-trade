@@ -3,6 +3,9 @@
 // that represents what we're trying to store.
 // Then it receives an action. That action is just a type which is a string type that tells you
 // What specific value it is.
+import { UserActionTypes} from './user.types'
+
+
 const INITIAL_STATE = {
   currentUser: null
 };
@@ -11,7 +14,7 @@ const INITIAL_STATE = {
 // Null is considered a value.
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SET_CURRENT_USER':
+    case UserActionTypes.SET_CURRENT_USER:
       return {
         ...state,
         currentUser: action.payload
