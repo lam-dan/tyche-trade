@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { auth } from '../../firebase/firebase.utils';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import './header.styles.scss';
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser,hidden }) => (
   <div className='header'>
     <Link className='logo-container' to='/'>
       <Logo className='logo' />
@@ -29,7 +31,12 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       )}
+      <CartIcon></CartIcon>
     </div>
+    {
+      hidden ?  null :
+    <CartDropDown></CartDropDown>
+    }
   </div>
 );
 
@@ -39,12 +46,13 @@ const Header = ({ currentUser }) => (
 // State is the root reducer, user is the field on the root-reducer
 // The user is then the user.reducer that contains the currentUser initial
 // state as 'null'
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+// when you wanted to destructure nested values do this:
+const mapStateToProps = ({ user: { currentUser }, cart: {hidden} }) => ({
+  currentUser,
+  hidden
+});
 
-})
-
-// Connect is a higher order component that takes in another component and return 
+// Connect is a higher order component that takes in another component and return
 // a powered up component.
 // Passing mapStateToProps we are getting that current user null value as
 // being passed into the Header Component above as 'null' value
