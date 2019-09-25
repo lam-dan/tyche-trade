@@ -1,4 +1,6 @@
 import CartActionTypes from './cart.types';
+import { addItemToCart } from '../cart/cart.utils'
+
 const INITIAL_STATE = {
   hidden: true,
   cartItems: []
@@ -17,9 +19,9 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         // We are using a spread operator to take in give all the values of the state's cartItems array
-        // and spreading them into this new array and also adding any additional values that might come in in
+        // and spreading them into this new array and also adding any additional values that might come in
         // action.payload
-        cartItems:[...state.cartItems, action.payload]
+        cartItems:addItemToCart(state.cartItems, action.payload)
       }
     default:
       return state;
