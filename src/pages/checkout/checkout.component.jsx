@@ -3,7 +3,7 @@ import './checkout.styles.scss';
 // Basic functional component that just renders a div
 const CheckoutPage = () => (
     <div>
-        CHECKOUT Page;
+        CHECKOUT PAGE
     </div>
 )
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router-dom';
 
 import CustomButton from '../custom-button/custom-button.component';
 
@@ -10,7 +11,7 @@ import { selectCartItems } from '../../redux/cart/cart.selectors';
 
 import './cart-dropdown.styles.scss';
 
-const CartDropDown = ({ cartItems }) => (
+const CartDropDown = ({ cartItems, history }) => (
   <div className='cart-dropdown'>
     <div className='cart-items'>
       {cartItems.length ? (
@@ -21,7 +22,7 @@ const CartDropDown = ({ cartItems }) => (
         <span className='empty-message'>Your cart is empty</span>
       )}
     </div>
-    <CustomButton>GO TO CHECKOUT</CustomButton>
+    <CustomButton onClick = { () => history.push('/checkout')}>GO TO CHECKOUT</CustomButton>
   </div>
 );
 
@@ -30,4 +31,12 @@ const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems
 });
 
-export default connect(mapStateToProps)(CartDropDown);
+// All our higher order components return components, but also take components as a 
+// an argument.
+// withRouter takes in a component that got returned from our connect call as a component
+// argument.  
+// When you wrap components, it evaluates it from inside out.
+// So basically, we want whatever component is being returned by connect which
+// we'll then pass into our withRouter component.  That in turns returns a new component
+// that now has access to withRouter properties such as history.
+export default withRouter(connect(mapStateToProps)(CartDropDown));
