@@ -1,3 +1,11 @@
+// Allows us to write our selectors in a way such that it 
+// knows that the properties we’re pulling from state and 
+// using in the sense that their value hasn’t changed and 
+// the output of the selector is not different, that it will 
+// not pass them in the component, so react will not re-render 
+// the component.  It also allows us to separate our selectors 
+// to make them resuable.
+
 import { createSelector } from 'reselect';
 
 // state is passed in here and state.cart is returned which becomes
@@ -13,6 +21,11 @@ export const selectCartItems = createSelector(
   // passes out each of the object's cartItems
   cart => cart.cartItems
 );
+
+export const selectCartHidden = createSelector(
+  [selectCart],
+  cart => cart.hidden
+)
 
 // the above selectCartItems gets passed into this 
 // selectCartItemsCount function as a first argument
