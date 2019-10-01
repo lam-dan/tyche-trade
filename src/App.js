@@ -26,7 +26,8 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    // Destructure object field off props.
+    // Destructure object field off this.props so we can go ahead and the key value pair
+    // setCurrentUser and pass in the new state user object as oppsoed to this.props.setCurrentUser()
     const { setCurrentUser } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -39,7 +40,8 @@ class App extends React.Component {
         // be used in our app
         // We are going  to subscribe to that user reference and get back the first state of the data
         userRef.onSnapshot(snapShot => {
-          console.log(snapShot);
+          console.log(snapShot.id);
+          console.log(snapShot.data());
           // We are going to set state on that snapshot data
           // setState is asynchronous so console log has to be in the callback
           // this.setState({
@@ -48,6 +50,7 @@ class App extends React.Component {
           //     ...snapShot.data()
           //   }
           // });
+
           setCurrentUser({
             id: snapShot.id,
             ...snapShot.data()
@@ -56,6 +59,7 @@ class App extends React.Component {
       } else {
         // If user ever logs out, we set the current state of the user to null, user autheticantion will be null
         // in this case.
+        console.log(userAuth)
         setCurrentUser(userAuth);
       }
     });
@@ -97,10 +101,18 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
 
+// dispatch allows redux to know that the object passed through is going
+// to be an action object that will be passed to every reduce
+
+// Dispatch is a function that gets a dispatch property and returns an object where
+// the prop name will be a prop we want to pass in that dispatches the new action
+// we're trying to pass which is 'SET_CURRENT_USER'
 const mapDispatchToProps = dispatch => ({
-  // dispatch allows redux to know that the object passed through is going
-  // to be an action object that will be passed to every reducer.
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  // On the left hand side are props we want to pass into the app component
+  // The right is a function that gets the user object and then calls dispatchs
+  // on each of those user objects and sends them over to all reducers.
+
+  setCurrentUser: user => dispatch(setCurrentUser(console.log(user)))
 });
 
 // Connect is a higher order component that takes in another component and return

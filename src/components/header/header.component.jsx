@@ -48,6 +48,8 @@ const Header = ({ currentUser, hidden }) => (
 // The user is then the user.reducer that contains the currentUser initial
 // state as 'null'
 // when you wanted to destructure nested values do this:
+
+// State is the root reducer
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   hidden : selectCartHidden
