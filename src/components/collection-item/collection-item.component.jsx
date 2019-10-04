@@ -1,17 +1,17 @@
 import React from 'react';
-
 // We use connect to import redux bindings that give us access
+
 import { connect } from 'react-redux';
 
-import './collection-item.styles.scss';
 import CustomButton from '../custom-button/custom-button.component';
-
 // Import addItem action into our component
+
 import { addItem } from '../../redux/cart/cart.actions';
+import './collection-item.styles.scss';
 
 const CollectionItem = ({ item, addItem }) => {
-  // Destructuring properties of item
   const { name, price, imageUrl } = item;
+
   return (
     <div className='collection-item'>
       <div
@@ -22,9 +22,11 @@ const CollectionItem = ({ item, addItem }) => {
       />
       <div className='collection-footer'>
         <span className='name'>{name}</span>
-        <span className='name'>{price}</span>
+        <span className='price'>{price}</span>
       </div>
-      <CustomButton onClick={() => addItem(item)} inverted> Add to cart</CustomButton>
+      <CustomButton onClick={() => addItem(item)} inverted>
+        Add to cart
+      </CustomButton>
     </div>
   );
 };
