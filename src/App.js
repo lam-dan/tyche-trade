@@ -11,11 +11,14 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import CheckoutPage from './pages/checkout/checkout.component'
 
 import Header from './components/header/header.component'
+
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
+
 import { setCurrentUser } from './redux/user/user.actions'
 import { selectCurrentUser } from './redux/user/user.selectors'
 
 class App extends React.Component {
+	unsubscribeFromAuth = null
 	// We do not need this anymore since we are using Redux to manage state
 	// constructor() {
 	//   super();
@@ -23,8 +26,6 @@ class App extends React.Component {
 	//     currentUser: null
 	//   };
 	// }
-	unsubscribeFromAuth = null
-
 	componentDidMount() {
 		// Destructure object field off this.props so we can go ahead and the key value pair
 		// setCurrentUser and pass in the new state user object as oppsoed to this.props.setCurrentUser()
@@ -40,8 +41,6 @@ class App extends React.Component {
 				// be used in our app
 				// We are going  to subscribe to that user reference and get back the first state of the data
 				userRef.onSnapshot(snapShot => {
-					console.log(snapShot.id)
-					console.log(snapShot.data())
 					// We are going to set state on that snapshot data
 					// setState is asynchronous so console log has to be in the callback
 					// this.setState({
@@ -50,18 +49,14 @@ class App extends React.Component {
 					//     ...snapShot.data()
 					//   }
 					// });
-
 					setCurrentUser({
 						id: snapShot.id,
 						...snapShot.data()
 					})
 				})
-			} else {
-				// If user ever logs out, we set the current state of the user to null, user autheticantion will be null
-				// in this case.
-				console.log(userAuth)
-				setCurrentUser(userAuth)
 			}
+
+			setCurrentUser(userAuth)
 		})
 	}
 
@@ -112,7 +107,7 @@ const mapDispatchToProps = dispatch => ({
 	// The right is a function that gets the user object and then calls dispatchs
 	// on each of those user objects and sends them over to all reducers.
 
-	setCurrentUser: user => dispatch(setCurrentUser(console.log(user)))
+	setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
 // Connect is a higher order component that takes in another component and return

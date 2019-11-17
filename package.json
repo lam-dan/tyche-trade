@@ -5,6 +5,7 @@
 	"dependencies": {
 		"checkout": "^1.0.1",
 		"firebase": "^6.4.0",
+		"heroku": "^7.35.0",
 		"node-sass": "^4.12.0",
 		"npx": "^10.2.0",
 		"react": "^16.8.6",
