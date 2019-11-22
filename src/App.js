@@ -55,7 +55,6 @@ class App extends React.Component {
 					})
 				})
 			}
-
 			setCurrentUser(userAuth)
 		})
 	}
@@ -106,7 +105,6 @@ const mapDispatchToProps = dispatch => ({
 	// On the left hand side are props we want to pass into the app component
 	// The right is a function that gets the user object and then calls dispatchs
 	// on each of those user objects and sends them over to all reducers.
-
 	setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
