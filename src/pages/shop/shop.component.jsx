@@ -4,6 +4,8 @@ import { Route } from 'react-router-dom'
 // Make this component connected to the reducers using react-redux library
 import { connect } from 'react-redux'
 
+import WithSpinner from '../../components/with-spinner/with-spinner.component'
+
 // Import in the actions to this component.
 // Update collections is a function that takes a collectionMap arguemnt
 // and returns the type and payload which contains the collcetionMap object
@@ -11,12 +13,19 @@ import { updateCollections } from '../../redux/shop/shop.actions'
 
 import CollectionsOverview from '../../components/collections-overview/collections-overview.component'
 import CollectionPage from '../collection/collection.component'
+
 import {
 	firestore,
 	convertCollectionSnapshotToMap
 } from '../../firebase/firebase.utils'
 
+const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview)
+const CollectionPageWithSpinner = WithSpinner(CollectionPage)
+
 class ShopPage extends React.Component {
+	state = {
+		loading: true
+	}
 	unsubscribeFromSnapshot = null
 
 	componentDidMount() {
@@ -31,22 +40,34 @@ class ShopPage extends React.Component {
 			// console.log(collectionsMap)
 			// console.log(updateCollections)
 			updateCollections(collectionsMap)
+			this.setState({ loading: false })
 			// console.log(snapshot)
 		})
 	}
 
 	render() {
 		const { match } = this.props
+		const { loading } = this.state
 		return (
 			<div className='shop-page'>
 				<Route
 					exact
 					path={`${match.path}`}
-					component={CollectionsOverview}
+					render={props => (
+						<CollectionsOverviewWithSpinner
+							isLoading={loading}
+							{...props}
+						/>
+					)}
 				/>
 				<Route
 					path={`${match.path}/:collectionId`}
-					component={CollectionPage}
+					render={props => (
+						<CollectionPageWithSpinner
+							isLoading={loading}
+							{...props}
+						/>
+					)}
 				/>
 			</div>
 		)
