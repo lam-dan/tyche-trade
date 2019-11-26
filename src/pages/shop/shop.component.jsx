@@ -20,13 +20,16 @@ class ShopPage extends React.Component {
 	unsubscribeFromSnapshot = null
 
 	componentDidMount() {
+		// We destructure the object returned as props to this component
+		// with mapDispatchToProps to be used.
 		const { updateCollections } = this.props
 		const collectionRef = firestore.collection('collections')
 		// Whenever the collection updates or when it runs for the first time, run an asychronous function that
 		// return a snapshot of each of the collection references
 		collectionRef.onSnapshot(async snapshot => {
 			const collectionsMap = convertCollectionSnapshotToMap(snapshot)
-			console.log(collectionsMap)
+			// console.log(collectionsMap)
+			// console.log(updateCollections)
 			updateCollections(collectionsMap)
 			// console.log(snapshot)
 		})
@@ -56,9 +59,13 @@ const mapDispatchToProps = dispatch => ({
 	// updateCollections key and it's value is a function that takes in a collectionsMap object
 	updateCollections: collectionsMap =>
 		// and runs the dispatch method on the updateCollections function
-		// updateCollections is a function that takes in a collectionsMap
+		// dispatch allows payload to be sent over to the store
+		// The updateCollections function was imported from the as a shop action
+		// It is a function that takes in a collectionsMap
 		// and returns an object with the type, and payload of the collectionsMap passed in
 		dispatch(updateCollections(collectionsMap))
 })
 
+// Using connect we are able to mapDispatchToProps function over to the component as props
+// in the form of an object with the updateCollections method where we destructure above to use.
 export default connect(null, mapDispatchToProps)(ShopPage)
