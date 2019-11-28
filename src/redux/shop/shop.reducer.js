@@ -1,7 +1,9 @@
 import ShopActionTypes from './shop.types'
 
 const INITIAL_STATE = {
-	collections: null
+	collections: null,
+	isFetching: false,
+	errorMessage: undefined
 }
 
 const shopReducer = (state = INITIAL_STATE, action) => {
@@ -9,15 +11,22 @@ const shopReducer = (state = INITIAL_STATE, action) => {
 	// action.type brings in ShopAtionTypes.UPDATE_COLLECTIONS
 	// which is 'UPDATE_COLLECTIONS'
 	switch (action.type) {
-		// Imported the ShopAtionTypes to match the strings from the action
-		case ShopActionTypes.UPDATE_COLLECTIONS:
-			// Return object with original key values from original state, and
-			// collections key with values from the action's payload
-			// action.payload contains the collectionsMap object that
-			// that was passed into the function
+		case ShopActionTypes.FETCH_COLLECTIONS_START:
 			return {
 				...state,
+				isFetching: true
+			}
+		case ShopActionTypes.FETCH_COLLECTIONS_SUCCESS:
+			return {
+				...state,
+				isFetching: false,
 				collections: action.payload
+			}
+		case ShopActionTypes.FETCH_COLLECTIONS_FAILURE:
+			return {
+				...state,
+				isFetching: false,
+				errorMessage: action.payload
 			}
 		default:
 			return state

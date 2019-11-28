@@ -70,7 +70,7 @@ export const addCollectionAndDocuments = async (
 // Convert each collection ref snapshot to an object with title and items, and returns
 // a new obect with the title, title, items, and doc id back to the original component that
 // called it.  In this case, it would be the shop component.
-export const convertCollectionSnapshotToMap = collections => {
+export const convertCollectionsSnapshotToMap = collections => {
 	const transformedCollection = collections.docs.map(doc => {
 		const { title, items } = doc.data()
 		return {
