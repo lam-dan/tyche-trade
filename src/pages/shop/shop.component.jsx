@@ -33,15 +33,23 @@ class ShopPage extends React.Component {
 		// with mapDispatchToProps to be used.
 		const { updateCollections } = this.props
 		const collectionRef = firestore.collection('collections')
+
+		// Another way to grab data from firestore using their APIs
+		// fetch(
+		// 	'https://firestore.googleapis.com/v1/projects/tyche-trade-db/databases/(default)/documents/collections'
+		// )
+		// 	.then(response => response.json())
+		// 	.then(collections => console.log(collections))
+
 		// Whenever the collection updates or when it runs for the first time, run an asychronous function that
 		// return a snapshot of each of the collection references
-		collectionRef.onSnapshot(async snapshot => {
+		collectionRef.get().then(snapshot => {
 			const collectionsMap = convertCollectionSnapshotToMap(snapshot)
-			// console.log(collectionsMap)
-			// console.log(updateCollections)
+			// // console.log(collectionsMap)
+			// // console.log(updateCollections)
 			updateCollections(collectionsMap)
 			this.setState({ loading: false })
-			// console.log(snapshot)
+			// console.log(snapshot))
 		})
 	}
 
